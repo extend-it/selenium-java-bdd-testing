@@ -28,7 +28,9 @@ public final class ConfigReader {
     }
 
     public static int getInt(String key, int defaultValue) {
+        // Properties files are easy to leave with trailing whitespace after
+        // an edit; Integer.parseInt() has zero tolerance for it.
         String raw = get(key, String.valueOf(defaultValue));
-        return Integer.parseInt(raw);
+        return Integer.parseInt(raw.trim());
     }
 }
