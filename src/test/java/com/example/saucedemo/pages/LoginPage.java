@@ -6,8 +6,7 @@ import org.openqa.selenium.WebDriver;
 public class LoginPage extends BasePage {
 
     private static final By USERNAME_INPUT = By.cssSelector("[data-test='username']");
-    // BUG: SauceDemo's actual attribute is data-test="password", not "password-input".
-    private static final By PASSWORD_INPUT = By.cssSelector("[data-test='password-input']");
+    private static final By PASSWORD_INPUT = By.cssSelector("[data-test='password']");
     private static final By LOGIN_BUTTON = By.cssSelector("[data-test='login-button']");
     private static final By ERROR_MESSAGE = By.cssSelector("[data-test='error']");
 
