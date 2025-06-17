@@ -10,6 +10,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
+import com.example.saucedemo.util.ConfigReader;
+
 public abstract class BasePage {
 
     protected static final Logger LOG = LogManager.getLogger(BasePage.class);
@@ -18,8 +20,12 @@ public abstract class BasePage {
 
     protected BasePage(WebDriver driver) {
         this.driver = driver;
-        // TODO: read the real timeout from config.properties
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(0));
+        // Was hardcoded to Duration.ofSeconds(0) - a zero-second wait
+        // returns/times out instantly, so every waitForVisible/waitForClickable
+        // call was silently a no-op the whole time explicit waits looked like
+        // they were working.
+        int timeoutSeconds = ConfigReader.getInt("explicit.wait.seconds", 10);
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(timeoutSeconds));
     }
 
     protected WebElement waitForVisible(By locator) {
