@@ -1,7 +1,9 @@
 package com.example.saucedemo.pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class LoginPage extends BasePage {
 
@@ -22,11 +24,20 @@ public class LoginPage extends BasePage {
         waitForVisible(USERNAME_INPUT).sendKeys(username);
         driver.findElement(PASSWORD_INPUT).sendKeys(password);
         driver.findElement(LOGIN_BUTTON).click();
+    }
+
+    /**
+     * Was a hardcoded Thread.sleep(2000) after clicking login: fine on a
+     * fast connection, flaky on a slow one, and always at least 2 wasted
+     * seconds on a fast one. This waits for the actual thing the next step
+     * cares about instead.
+     */
+    public boolean waitForInventoryPage() {
         try {
-            // TODO: replace with a real wait once we know what to wait for
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+            wait.until(ExpectedConditions.urlContains("inventory.html"));
+            return true;
+        } catch (TimeoutException e) {
+            return false;
         }
     }
 

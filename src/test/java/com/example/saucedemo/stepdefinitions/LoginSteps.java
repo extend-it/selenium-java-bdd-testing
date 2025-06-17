@@ -24,6 +24,15 @@ public class LoginSteps {
 
     @Then("the user lands on the inventory page")
     public void assertInventoryPageShown() {
-        Assertions.assertTrue(DriverFactory.getDriver().getCurrentUrl().contains("inventory.html"));
+        // Used to be an immediate, unwaited getCurrentUrl() check, which
+        // only worked because login() used to Thread.sleep(2000) first (see
+        // LoginPage). Now that login() doesn't block, this needs its own
+        // wait for the navigation to actually finish.
+        Assertions.assertTrue(loginPage.waitForInventoryPage());
+    }
+
+    @Then("the login error {string} is shown")
+    public void assertLoginError(String expectedMessage) {
+        Assertions.assertEquals(expectedMessage, loginPage.getErrorMessage());
     }
 }
