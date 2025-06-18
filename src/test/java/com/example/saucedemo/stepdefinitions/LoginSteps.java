@@ -29,9 +29,6 @@ public class LoginSteps {
 
     @Then("the login error {string} is shown")
     public void assertLoginError(String expectedMessage) {
-        // BUG: SauceDemo's error text is normal sentence case
-        // ("Epic sadface: ..."), so lower-casing the expected value before
-        // comparing means this can never match the real (non-lowercase) text.
-        Assertions.assertTrue(loginPage.getErrorMessage().contains(expectedMessage.toLowerCase()));
+        Assertions.assertEquals(expectedMessage, loginPage.getErrorMessage());
     }
 }
