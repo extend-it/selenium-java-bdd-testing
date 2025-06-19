@@ -6,4 +6,4 @@ Feature: Inventory
 
   @smoke
   Scenario: All products are listed
-    Then all 5 products are listed
+    Then all 6 products are listed
