@@ -31,9 +31,10 @@ public class InventoryPage extends BasePage {
     }
 
     public int getCartBadgeCount() {
-        // BUG: this counts how many badge *elements* are on the page (0 or
-        // 1 - the badge either exists or doesn't), not the number printed
-        // inside it. Adding a 2nd and 3rd item never changes this value.
-        return driver.findElements(CART_BADGE).size();
+        List<WebElement> badges = driver.findElements(CART_BADGE);
+        if (badges.isEmpty()) {
+            return 0;
+        }
+        return Integer.parseInt(badges.get(0).getText().trim());
     }
 }
