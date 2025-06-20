@@ -24,4 +24,9 @@ public class InventorySteps {
     public void assertCartBadge(int expectedCount) {
         Assertions.assertEquals(expectedCount, inventoryPage.getCartBadgeCount());
     }
+
+    @When("the user opens the cart")
+    public void openCart() {
+        inventoryPage.openCart();
+    }
 }
