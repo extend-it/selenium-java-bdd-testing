@@ -19,10 +19,7 @@ public class CartSteps {
 
     @When("the user removes {string} from the cart")
     public void removeFromCart(String itemName) {
-        // BUG: copy-pasted from the "add to cart" step below by mistake -
-        // this clicks the *add* button (which, on an item already in the
-        // cart, does nothing useful) instead of the cart's remove button.
-        inventoryPage.addItemToCartByName(itemName);
+        cartPage.removeItemByName(itemName);
     }
 
     @Then("the cart does not contain {string}")
