@@ -4,11 +4,14 @@ import java.util.Map;
 
 public final class SortOptionMapper {
 
+    // "price low to high" -> "lohi" and "price high to low" -> "hilo" -
+    // the values themselves read backwards from the labels, and the two
+    // were swapped here originally.
     private static final Map<String, String> OPTION_VALUES = Map.of(
         "name a to z", "az",
         "name z to a", "za",
-        "price low to high", "hilo",
-        "price high to low", "lohi"
+        "price low to high", "lohi",
+        "price high to low", "hilo"
     );
 
     private SortOptionMapper() {
