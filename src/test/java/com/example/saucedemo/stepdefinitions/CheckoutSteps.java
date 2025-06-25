@@ -22,11 +22,10 @@ public class CheckoutSteps {
 
     @Then("the order total equals the subtotal plus tax")
     public void assertOrderTotal() {
-        // BUG: ignores tax entirely - total is always subtotal + tax, so
-        // this only ever "passes" if tax happens to be exactly 0.
         double subtotal = checkoutOverviewPage.getSubtotal();
+        double tax = checkoutOverviewPage.getTax();
         double total = checkoutOverviewPage.getTotal();
-        Assertions.assertEquals(subtotal, total, 0.01);
+        Assertions.assertEquals(subtotal + tax, total, 0.01);
     }
 
     @When("the user finishes the order")
