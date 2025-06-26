@@ -10,4 +10,4 @@ Feature: Checkout validation
   @regression @negative
   Scenario: Missing first name is rejected
     When the user fills in checkout information "", "Doe", "12345"
-    Then the checkout info error "Error: Last Name is required" is shown
+    Then the checkout info error "Error: First Name is required" is shown
