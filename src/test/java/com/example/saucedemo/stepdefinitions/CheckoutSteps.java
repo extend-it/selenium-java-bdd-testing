@@ -37,4 +37,9 @@ public class CheckoutSteps {
     public void assertOrderConfirmation(String expectedText) {
         Assertions.assertEquals(expectedText, checkoutCompletePage.getConfirmationHeader());
     }
+
+    @Then("the checkout info error {string} is shown")
+    public void assertCheckoutInfoError(String expectedMessage) {
+        Assertions.assertEquals(expectedMessage, checkoutInfoPage.getErrorMessage());
+    }
 }
