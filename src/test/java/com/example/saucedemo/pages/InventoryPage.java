@@ -16,8 +16,6 @@ public class InventoryPage extends BasePage {
     private static final By ITEM_PRICE = By.cssSelector("[data-test='inventory-item-price']");
     private static final By SORT_DROPDOWN = By.cssSelector("[data-test='product-sort-container']");
 
-
-
     public InventoryPage(WebDriver driver) {
         super(driver);
     }
@@ -27,11 +25,6 @@ public class InventoryPage extends BasePage {
     }
 
     public List<WebElement> getItems() {
-        // No longer cached: sorting re-renders the whole list (React), and
-        // stale cached WebElement references from before the re-render blew
-        // up with StaleElementReferenceException the moment a sort ran
-        // before a read. Always re-querying is a little more work but never
-        // stale.
         waitForVisible(INVENTORY_ITEMS);
         return driver.findElements(INVENTORY_ITEMS);
     }
@@ -50,7 +43,9 @@ public class InventoryPage extends BasePage {
     }
 
     public void openCart() {
-        driver.findElement(CART_LINK).click();
+        // Was driver.findElement(CART_LINK).click() - see BasePage.click()
+        // for why that intermittently left the browser on inventory.html.
+        click(CART_LINK);
     }
 
     public void sortBy(String optionValue) {
