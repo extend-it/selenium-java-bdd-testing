@@ -31,7 +31,7 @@ public class InventoryPage extends BasePage {
 
     public void addItemToCartByName(String itemName) {
         String slug = itemName.toLowerCase().replace(" ", "-");
-        driver.findElement(By.cssSelector("[data-test='add-to-cart-" + slug + "']")).click();
+        click(By.cssSelector("[data-test='add-to-cart-" + slug + "']"));
     }
 
     public int getCartBadgeCount() {
@@ -43,8 +43,6 @@ public class InventoryPage extends BasePage {
     }
 
     public void openCart() {
-        // Was driver.findElement(CART_LINK).click() - see BasePage.click()
-        // for why that intermittently left the browser on inventory.html.
         click(CART_LINK);
     }
 

@@ -31,6 +31,6 @@ public class CheckoutOverviewPage extends BasePage {
     }
 
     public void finish() {
-        waitForClickable(FINISH_BUTTON).click();
+        click(FINISH_BUTTON);
     }
 }

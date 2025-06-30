@@ -23,7 +23,7 @@ public class LoginPage extends BasePage {
     public void login(String username, String password) {
         waitForVisible(USERNAME_INPUT).sendKeys(username);
         driver.findElement(PASSWORD_INPUT).sendKeys(password);
-        driver.findElement(LOGIN_BUTTON).click();
+        click(LOGIN_BUTTON);
     }
 
     /**
