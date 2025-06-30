@@ -16,7 +16,11 @@ public class CheckoutInfoPage extends BasePage {
     }
 
     public void fillInfo(String firstName, String lastName, String postalCode) {
-        driver.findElement(FIRST_NAME_INPUT).sendKeys(firstName);
+        // Was driver.findElement(FIRST_NAME_INPUT) with no wait: this page
+        // is only reached by clicking "checkout" on the cart page, and the
+        // client-side navigation to checkout-step-one.html isn't instant.
+        // waitForVisible() gives it time to actually arrive first.
+        waitForVisible(FIRST_NAME_INPUT).sendKeys(firstName);
         driver.findElement(LAST_NAME_INPUT).sendKeys(lastName);
         driver.findElement(POSTAL_CODE_INPUT).sendKeys(postalCode);
     }

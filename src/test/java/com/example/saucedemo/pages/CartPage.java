@@ -17,6 +17,11 @@ public class CartPage extends BasePage {
     }
 
     public List<String> getItemNames() {
+        // Was driver.findElements(...) with no wait at all: called right
+        // after opening the cart (or right after a remove-item click), it
+        // could run before the list had re-rendered and see stale/partial
+        // contents. waitForVisible() gives the first item time to appear.
+        waitForVisible(CART_ITEM_NAMES);
         List<String> names = new ArrayList<>();
         for (WebElement el : driver.findElements(CART_ITEM_NAMES)) {
             names.add(el.getText());
@@ -26,7 +31,7 @@ public class CartPage extends BasePage {
 
     public void removeItemByName(String itemName) {
         String slug = itemName.toLowerCase().replace(" ", "-");
-        driver.findElement(By.cssSelector("[data-test='remove-" + slug + "']")).click();
+        waitForClickable(By.cssSelector("[data-test='remove-" + slug + "']")).click();
     }
 
     public void checkout() {
