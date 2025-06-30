@@ -16,9 +16,14 @@ public class CheckoutInfoPage extends BasePage {
     }
 
     public void fillInfo(String firstName, String lastName, String postalCode) {
-        waitForVisible(FIRST_NAME_INPUT).sendKeys(firstName);
-        driver.findElement(LAST_NAME_INPUT).sendKeys(lastName);
-        driver.findElement(POSTAL_CODE_INPUT).sendKeys(postalCode);
+        // Was driver.findElement(...).sendKeys(...): these three fields are
+        // React-controlled inputs that don't pick up Selenium's native key
+        // events (see BasePage.typeText() for the full story). Every field
+        // came back empty afterwards no matter how the click/focus/keys
+        // were sequenced.
+        typeText(FIRST_NAME_INPUT, firstName);
+        typeText(LAST_NAME_INPUT, lastName);
+        typeText(POSTAL_CODE_INPUT, postalCode);
     }
 
     public void continueToOverview() {
