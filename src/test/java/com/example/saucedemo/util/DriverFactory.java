@@ -10,16 +10,24 @@ import org.openqa.selenium.chrome.ChromeOptions;
 public final class DriverFactory {
 
     private static final Logger LOG = LogManager.getLogger(DriverFactory.class);
-    private static WebDriver driver;
+
+    // Was a plain "private static WebDriver driver" field. That was fine
+    // while junit-platform.properties ran everything on one thread, but the
+    // moment cucumber.execution.parallel.enabled=true went live (see
+    // junit-platform.properties), two scenarios on two threads raced on
+    // this field: thread A's @Before would see thread B's half-quit driver,
+    // or both threads would drive the *same* browser tab simultaneously.
+    // ThreadLocal gives each execution thread its own WebDriver instance.
+    private static final ThreadLocal<WebDriver> DRIVER = new ThreadLocal<>();
 
     private DriverFactory() {
     }
 
     public static WebDriver getDriver() {
-        if (driver == null) {
-            driver = createDriver();
+        if (DRIVER.get() == null) {
+            DRIVER.set(createDriver());
         }
-        return driver;
+        return DRIVER.get();
     }
 
     private static WebDriver createDriver() {
@@ -35,9 +43,10 @@ public final class DriverFactory {
     }
 
     public static void quitDriver() {
+        WebDriver driver = DRIVER.get();
         if (driver != null) {
             driver.quit();
-            driver = null;
+            DRIVER.remove();
         }
     }
 }
