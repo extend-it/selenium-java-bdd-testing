@@ -22,6 +22,7 @@
     <webdrivermanager.version>6.1.0</webdrivermanager.version>
     <slf4j.version>2.0.17</slf4j.version>
     <log4j.version>2.24.3</log4j.version>
+    <surefire.version>3.5.3</surefire.version>
   </properties>
 
   <dependencies>
@@ -82,12 +83,39 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.5.3</version>
+        <version>${surefire.version}</version>
         <configuration>
           <includes>
             <include>**/TestRunner.java</include>
           </includes>
         </configuration>
+      </plugin>
+      <plugin>
+        <!--
+          Converts target/surefire-reports/*.xml into an HTML report in that
+          same folder, right after surefire:test writes them - no separate
+          `mvn site` or manual command needed, every `mvn test` run leaves
+          target/surefire-reports/surefire-report.html up to date.
+          report-only (not report) is deliberate: it only reads the XML
+          surefire:test already wrote in this same `test` phase, instead of
+          invoking the tests a second time.
+        -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+        <version>${surefire.version}</version>
+        <configuration>
+          <outputDirectory>${project.build.directory}/surefire-reports</outputDirectory>
+          <outputName>surefire-report</outputName>
+        </configuration>
+        <executions>
+          <execution>
+            <id>generate-html-report</id>
+            <phase>test</phase>
+            <goals>
+              <goal>report-only</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>

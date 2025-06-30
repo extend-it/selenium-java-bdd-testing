@@ -20,6 +20,12 @@ Chrome is driven headless by default is **off** - set `headless=true` in
 `WebDriverManager` downloads/caches the matching chromedriver automatically,
 no manual driver setup required.
 
+Every `mvn test` run also writes an HTML report to
+`target/surefire-reports/surefire-report.html` (alongside the usual
+`TEST-*.xml`/`.txt` files) - `maven-surefire-report-plugin` is bound to the
+`test` phase via `report-only`, so it just reads the XML surefire:test wrote
+moments earlier instead of running everything twice.
+
 ## Layout
 
 ```
