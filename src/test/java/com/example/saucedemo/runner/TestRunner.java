@@ -26,13 +26,16 @@ import static io.cucumber.junit.platform.engine.Constants.PLUGIN_PROPERTY_NAME;
  * For real per-scenario/step detail, see the "html" plugin below:
  * target/cucumber-reports/report.html is generated straight from
  * Cucumber's own event bus, independently of Surefire/JUnit Platform
- * listener plumbing, so it always reflects what actually ran.
+ * listener plumbing, so it always reflects what actually ran. The "junit"
+ * plugin writes the same events as JUnit XML (one testcase per scenario)
+ * to target/cucumber-reports/cucumber.xml, for CI test-result views.
  */
 @Suite
 @IncludeEngines("cucumber")
 @SelectClasspathResource("features")
 @ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = "com.example.saucedemo.stepdefinitions")
 @ConfigurationParameter(key = PLUGIN_PROPERTY_NAME,
-        value = "pretty, summary, html:target/cucumber-reports/report.html")
+        value = "pretty, summary, html:target/cucumber-reports/report.html, "
+                + "junit:target/cucumber-reports/cucumber.xml")
 public class TestRunner {
 }

@@ -1,0 +1,35 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '11'
+          cache: maven
+
+      # ubuntu-latest ships Google Chrome; WebDriverManager downloads the
+      # matching chromedriver at runtime.
+      - name: Run tests (headless)
+        run: mvn -B test -Dheadless=true
+
+      # Cucumber's report is the one with real per-scenario detail; the
+      # Surefire one always says "Tests run: 0" (see TestRunner javadoc).
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: |
+            target/cucumber-reports/
+            target/surefire-reports/
