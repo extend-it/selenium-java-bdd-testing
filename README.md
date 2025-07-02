@@ -1,4 +1,5 @@
 # selenium-java-bdd-testing
+![tests](https://github.com/extend-it/selenium-java-bdd-testing/actions/workflows/tests.yml/badge.svg)
 
 BDD test suite for [Swag Labs](https://www.saucedemo.com/), Sauce Labs' free
 demo e-commerce app used for Selenium/Cucumber practice: login, product
